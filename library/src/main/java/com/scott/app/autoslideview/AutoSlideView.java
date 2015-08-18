@@ -127,13 +127,14 @@ public class AutoSlideView extends AutoSlideBase implements ViewPager.OnPageChan
         if(null == mAdapter) {
             mAdapter = new ViewPagerAdapter(mSlideViews);
         } else {
-            mAdapter.getViewPages().add(slideView);
+            mAdapter.notifyDataSetChanged();
         }
-        mAdapter.notifyDataSetChanged();
 
         if(null != pageControl) {
             pageControl.setTotalPage(mSlideViews.size());
         }
+        //重新设置当前位置
+        viewPager.setCurrentItem(100 * mSlideViews.size() + currPage % mSlideViews.size());
     }
 
     @Override
@@ -162,6 +163,11 @@ public class AutoSlideView extends AutoSlideBase implements ViewPager.OnPageChan
     @Override
     public void setAutoSlideEnabled(boolean autoSlideEnabled) {
         this.autoSlideEnabled = autoSlideEnabled;
+    }
+
+    @Override
+    public void setTimeInterval(int timeInterval) {
+        this.timeInterval = timeInterval;
     }
 
     @Override

@@ -97,6 +97,11 @@ public abstract class AutoSlideBase extends FrameLayout  {
      */
     public abstract void setAutoSlideEnabled(boolean autoSlideEnabled);
 
+    /**
+     * 设置滑动时间间隔
+     */
+    public abstract void setTimeInterval(int timeInterval);
+
 
     //滑动事件监听类
     public interface OnPageChangeListener {
