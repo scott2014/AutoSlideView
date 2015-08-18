@@ -5,6 +5,7 @@
 #用法
 ##最简单的用法
 1、添加需要滚动的视图到AutoSlideView中
+
 setSlideViews(List<View> slideViews)
 
 2、开启自动滑动
