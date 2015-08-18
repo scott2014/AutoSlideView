@@ -8,7 +8,6 @@
     <com.scott.app.autoslideview.AutoSlideView
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:background="#ff00ff"
         android:id="@+id/autoSlideView"/>
 
     <LinearLayout
@@ -20,15 +19,22 @@
             android:layout_height="50dp"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:text="开始"
+            android:text="@string/start"
             android:id="@+id/start"/>
         <Button
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:text="停止"
+            android:text="@string/stop"
             android:id="@+id/stop"/>
     </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/load_frm_net"
+        android:id="@+id/loadFrmNet"/>
 
 </LinearLayout>

@@ -1,8 +1,10 @@
 package com.scott.app.sample;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -17,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private AutoSlideView slideView;
     private Button startBtn;
     private Button stopBtn;
+    private Button loadFrmNetBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,18 +29,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         slideView = (AutoSlideView) findViewById(R.id.autoSlideView);
         startBtn = (Button) findViewById(R.id.start);
         stopBtn = (Button) findViewById(R.id.stop);
+        loadFrmNetBtn = (Button) findViewById(R.id.loadFrmNet);
 
         List<View> images = new ArrayList<>();
+
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
         ImageView img = new ImageView(this);
         img.setImageResource(R.drawable.cat1);
+        img.setLayoutParams(lp);
+        img.setScaleType(ImageView.ScaleType.FIT_XY);
         images.add(img);
 
         ImageView img1 = new ImageView(this);
         img1.setImageResource(R.drawable.cat2);
+        img1.setLayoutParams(lp);
+        img1.setScaleType(ImageView.ScaleType.FIT_XY);
         images.add(img1);
 
         ImageView img2 = new ImageView(this);
         img2.setImageResource(R.drawable.cat3);
+        img2.setLayoutParams(lp);
+        img2.setScaleType(ImageView.ScaleType.FIT_XY);
         images.add(img2);
 
         slideView.setSlideViews(images);
@@ -54,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         startBtn.setOnClickListener(this);
         stopBtn.setOnClickListener(this);
+        loadFrmNetBtn.setOnClickListener(this);
     }
 
 
@@ -66,6 +80,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             case R.id.stop: {
                 slideView.stopAutoSlide();
+                break;
+            }
+            case R.id.loadFrmNet: {
+                Intent intent = new Intent(this,LoadFrmSrv.class);
+                startActivity(intent);
+                break;
             }
         }
     }
