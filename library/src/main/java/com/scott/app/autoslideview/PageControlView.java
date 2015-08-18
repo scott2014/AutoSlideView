@@ -21,13 +21,13 @@ import java.util.List;
  */
 public class PageControlView extends PageControlBase {
     //当前指示器颜色
-    private final String DEFAULT_CURR_INDICTOR_COLOR = "#ff0000";
+    private final String DEFAULT_CURR_INDICTOR_COLOR = "#cccccc";
     //指示器默认颜色
-    private final String DEFAULT_INDICTOR_COLOR = "#00ff00";
+    private final String DEFAULT_INDICTOR_COLOR = "#999999";
     //指示器默认间距
     private final float DEFAULT_INDICTOR_MARGIN = 10;
     //默认指示器半径
-    private final float DEFAULT_INDICTOR_RADIUS = 5;
+    private final float DEFAULT_INDICTOR_RADIUS = 8;
 
     //页面指示器
     private List<ImageView> indictors;
