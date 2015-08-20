@@ -29,6 +29,9 @@ public abstract class PageControlBase extends LinearLayout {
     //当前页
     protected int currPage;
 
+    //单页数据是否隐藏指示器
+    protected boolean hideForSinglePage = true;
+
     public PageControlBase(Context context) {
         super(context);
     }
@@ -52,4 +55,10 @@ public abstract class PageControlBase extends LinearLayout {
 
     //设置当前页
     public abstract void setCurrPage(int currPage);
+
+    public abstract void setHideForSinglePage(boolean hideForSinglePage);
+
+    public boolean getHideForSinglePage() {
+        return hideForSinglePage;
+    }
 }

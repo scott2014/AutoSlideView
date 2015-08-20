@@ -96,6 +96,8 @@ public class PageControlView extends PageControlBase {
     public void setTotalPage(int totalPage) {
         this.totalPage = totalPage;
 
+        //设置了单页指示器隐藏，则不创建指示器
+        if(hideForSinglePage && totalPage <= 1) return;
         createIndictor();
     }
 
@@ -105,6 +107,20 @@ public class PageControlView extends PageControlBase {
             indictors.get(this.currPage).setImageDrawable(getIndictorDrawable(indictorColor));
             this.currPage = currPage;
             indictors.get(this.currPage).setImageDrawable(getIndictorDrawable(currIndictorColor));
+        }
+    }
+
+    @Override
+    public void setHideForSinglePage(boolean hideForSinglePage) {
+        this.hideForSinglePage = hideForSinglePage;
+
+        //如果是单页数据，进行指示器重绘
+        if(totalPage == 1) {
+            if (!hideForSinglePage) {
+                createIndictor();
+            } else {
+                removeAllViews();
+            }
         }
     }
 
