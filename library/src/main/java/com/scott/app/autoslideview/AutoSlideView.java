@@ -183,7 +183,7 @@ public class AutoSlideView extends AutoSlideBase implements ViewPager.OnPageChan
 
     @Override
     public void setOnItemClickListener(final OnItemClickListener itemClickListener) {
-        if(null == itemClickListener) return;
+        if(null == itemClickListener || null == mAdapter) return;
         List<View> viewPages = mAdapter.getViewPages();
         if(null != viewPages && viewPages.size() > 0) {
             for(int i=0;i<viewPages.size();i++) {
