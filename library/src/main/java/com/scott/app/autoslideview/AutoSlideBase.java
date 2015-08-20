@@ -102,6 +102,13 @@ public abstract class AutoSlideBase extends FrameLayout  {
      */
     public abstract void setTimeInterval(int timeInterval);
 
+    /**
+     * 获取页面指示器
+     */
+    public PageControlBase getPageControl() {
+        return pageControl;
+    }
+
 
     //滑动事件监听类
     public interface OnPageChangeListener {
