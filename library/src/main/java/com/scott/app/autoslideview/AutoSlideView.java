@@ -3,6 +3,7 @@ package com.scott.app.autoslideview;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +28,6 @@ public class AutoSlideView extends AutoSlideBase implements ViewPager.OnPageChan
 
     //使用ViewPager实现滑动页面，也可以使用HorizontalScrollView实现
     private ViewPager viewPager;
-
-    //页面控制器
-    private PageControlBase pageControl;
 
     //自动滑动任务
     private Runnable slideTask;
@@ -99,6 +97,7 @@ public class AutoSlideView extends AutoSlideBase implements ViewPager.OnPageChan
         if(null == mSlideViews) mSlideViews = new ArrayList<>();
 
         if(null != slideViews) {
+            mSlideViews.clear();
             mSlideViews.addAll(slideViews);
         }
 
@@ -116,7 +115,10 @@ public class AutoSlideView extends AutoSlideBase implements ViewPager.OnPageChan
         }
 
         //设置滑动初始值
-        viewPager.setCurrentItem(100 * mAdapter.getViewPages().size());
+        //如果只有一个视图，不需要处理滑动事件
+        if(mSlideViews.size() > 1) {
+            viewPager.setCurrentItem(100 * mAdapter.getViewPages().size());
+        }
     }
 
     @Override
@@ -134,7 +136,10 @@ public class AutoSlideView extends AutoSlideBase implements ViewPager.OnPageChan
             pageControl.setTotalPage(mSlideViews.size());
         }
         //重新设置当前位置
-        viewPager.setCurrentItem(100 * mSlideViews.size() + currPage % mSlideViews.size());
+        //如果只有一个视图，不需要处理滑动事件
+        if(mSlideViews.size() > 1) {
+            viewPager.setCurrentItem(100 * mSlideViews.size() + currPage % mSlideViews.size());
+        }
     }
 
     @Override
@@ -147,9 +152,10 @@ public class AutoSlideView extends AutoSlideBase implements ViewPager.OnPageChan
         if(null == mSlideViews || mSlideViews.size() <= 0) {
             throw new AutoSlideException("没有设置滑动视图，或滑动视图数量为0");
         }
-
-        autoSlideEnabled = true;
-        postDelayed(slideTask,timeInterval);
+        if(null != mAdapter && mAdapter.getViewPages().size() > 1) {
+            autoSlideEnabled = true;
+            postDelayed(slideTask, timeInterval);
+        }
     }
 
     @Override
@@ -202,6 +208,7 @@ public class AutoSlideView extends AutoSlideBase implements ViewPager.OnPageChan
 
     @Override
     public void onPageSelected(int position) {
+
         currPage = position;
         if(null != pageControl) {
             pageControl.setCurrPage(currPage % mAdapter.getViewPages().size());
@@ -214,7 +221,7 @@ public class AutoSlideView extends AutoSlideBase implements ViewPager.OnPageChan
 
     @Override
     public void onPageScrollStateChanged(int state) {
-        if(autoSlideEnabled) {
+        if(autoSlideEnabled && mAdapter.getViewPages().size() > 1) {
             removeCallbacks(slideTask);
 
             if(viewPager.SCROLL_STATE_IDLE == state) {
@@ -236,6 +243,7 @@ public class AutoSlideView extends AutoSlideBase implements ViewPager.OnPageChan
 
         @Override
         public int getCount() {
+            if(null == viewPages || viewPages.size() <= 1) return viewPages.size();
             return Integer.MAX_VALUE;
         }
 
@@ -247,13 +255,20 @@ public class AutoSlideView extends AutoSlideBase implements ViewPager.OnPageChan
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             View view = viewPages.get(position % viewPages.size());
-            container.removeView(view);
+            if(null != view.getParent()) {
+                container.removeView(view);
+            }
             container.addView(view);
             return view;
         }
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return ViewPagerAdapter.POSITION_NONE;
         }
 
         public List<View> getViewPages() {
