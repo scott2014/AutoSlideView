@@ -3,6 +3,7 @@ package com.scott.app.sample;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -19,16 +20,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private AutoSlideView slideView;
     private Button startBtn;
     private Button stopBtn;
+    private Button showBtn;
+    private Button hideBtn;
     private Button loadFrmNetBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         slideView = (AutoSlideView) findViewById(R.id.autoSlideView);
         startBtn = (Button) findViewById(R.id.start);
         stopBtn = (Button) findViewById(R.id.stop);
+        showBtn = (Button) findViewById(R.id.show);
+        hideBtn = (Button) findViewById(R.id.hide);
         loadFrmNetBtn = (Button) findViewById(R.id.loadFrmNet);
 
         List<View> images = new ArrayList<>();
@@ -54,22 +60,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         images.add(img2);
 
         slideView.setSlideViews(images);
-        slideView.setAutoSlideEnabled(false);
-
-//        slideView.autoSlide();
+        slideView.autoSlide();
 
         slideView.setOnItemClickListener(new AutoSlideBase.OnItemClickListener() {
             @Override
             public void onItemClick(int index, View view) {
-                Toast.makeText(MainActivity.this,"index = " + index,Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "index = " + index, Toast.LENGTH_LONG).show();
             }
         });
 
         startBtn.setOnClickListener(this);
         stopBtn.setOnClickListener(this);
+        showBtn.setOnClickListener(this);
+        hideBtn.setOnClickListener(this);
         loadFrmNetBtn.setOnClickListener(this);
     }
-
 
     @Override
     public void onClick(View view) {
@@ -82,11 +87,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 slideView.stopAutoSlide();
                 break;
             }
+            case R.id.hide: {
+                slideView.hide();
+                break;
+            }
+            case R.id.show: {
+                slideView.show();
+                break;
+            }
             case R.id.loadFrmNet: {
                 Intent intent = new Intent(this,LoadFrmSrv.class);
                 startActivity(intent);
                 break;
             }
         }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        slideView.stopAutoSlide();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 }

@@ -8,7 +8,8 @@
     <com.scott.app.autoslideview.AutoSlideView
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:id="@+id/autoSlideView"/>
+        android:id="@+id/autoSlideView"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,6 +29,26 @@
             android:layout_weight="1"
             android:text="@string/stop"
             android:id="@+id/stop"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:text="@string/show"
+            android:id="@+id/show"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:text="@string/hide"
+            android:id="@+id/hide"/>
     </LinearLayout>
 
     <Button

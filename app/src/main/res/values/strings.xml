@@ -9,4 +9,6 @@
     <string name="add_new_image">添加新图片</string>
     <string name="start">开始</string>
     <string name="stop">停止</string>
+    <string name="show">显示</string>
+    <string name="hide">隐藏</string>
 </resources>

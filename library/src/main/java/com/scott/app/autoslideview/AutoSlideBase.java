@@ -151,4 +151,13 @@ public abstract class AutoSlideBase extends FrameLayout  {
 
     //设置滑动页面点击事件监听器
     public abstract void setOnItemClickListener(OnItemClickListener itemClickListener);
+
+    //显示
+    public abstract void show();
+
+    //隐藏
+    public abstract void hide();
+
+    //显示或隐藏页面控制器
+    public abstract void showPageControl(boolean show);
 }
