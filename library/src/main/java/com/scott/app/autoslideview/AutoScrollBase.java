@@ -1,8 +1,6 @@
 package com.scott.app.autoslideview;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -15,28 +13,35 @@ import java.util.List;
  *  @author scott
  *  @link http://www.baidu.com
  */
-public abstract class AutoSlideBase extends FrameLayout  {
-    //是否开启自动滚动(默认开启)
-    protected boolean autoSlideEnabled = true;
+public abstract class AutoScrollBase extends FrameLayout  {
+    // 是否开启自动滚动(默认开启)
+    protected boolean mAutoScrollEnable = true;
+    // 滑动时间间隔
+    protected int mTimeInterval;
+    // 指示器Margin Bottom
+    protected float mIndictorBottomMargin;
+    // 指示器间隔
+    protected float mIndictorSpace;
+    // 是否显示指示器
+    protected boolean mIndictorVisible = true;
+    // 单页指示器是否显示 (默认不显示)
+    protected boolean mIndictorVisibleInSingle = false;
 
-    //滑动时间间隔
-    protected int timeInterval;
-
-    //当前页
+    // 当前页
     protected int currPage = 0;
 
-    //页面控制器
-    protected PageControlBase pageControl;
+    // 页面控制器
+    protected PageControlBase mPageControl;
 
-    //滑动视图
+    // 滑动视图
     protected List<View> mSlideViews;
 
-    //标记滑动状态
-    //标记视图处于空闲状态或手动设置状态，即没有与用户交互
+    // 标记滑动状态
+    // 标记视图处于空闲状态或手动设置状态，即没有与用户交互
     public static final int SCROLL_STATE_IDLE = 0;
-    //标记视图正处于滑动状态
+    // 标记视图正处于滑动状态
     public static final int SCROLL_STATE_DRAGGING = 1;
-    //标记当前页被设置到了指定位置
+    // 标记当前页被设置到了指定位置
     public static final int SCROLL_STATE_SETTLING = 2;
 
     //滑动事件监听器
@@ -46,34 +51,13 @@ public abstract class AutoSlideBase extends FrameLayout  {
     protected OnItemClickListener onItemClickListener;
 
 
-    public AutoSlideBase(Context context) {
+    public AutoScrollBase(Context context) {
         super(context);
     }
 
-    public AutoSlideBase(Context context, AttributeSet attrs) {
+    public AutoScrollBase(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
-
-    public AutoSlideBase(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public AutoSlideBase(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
-
-    /**
-     * 设置需要滑动显示的视图集合
-     * @param slideViews 滑动视图集合
-     */
-    public abstract void setSlideViews(List<View> slideViews);
-
-    /**
-     * 动态添加滑动视图到当前视图集合中
-     * @param slideView 添加到滑动视图的视图对象
-     */
-    public abstract void addSlideView(View slideView);
 
     /**
      * 设置页面控制器，该页面控制器会有默认实现，如果手动实现，则会覆盖默认设置
@@ -84,18 +68,18 @@ public abstract class AutoSlideBase extends FrameLayout  {
     /**
      *  开始自动滑动
      */
-    public abstract void autoSlide();
+    public abstract void autoScroll();
 
     /**
      * 停止自动滑动
      */
-    public abstract void stopAutoSlide();
+    public abstract void stopAutoScroll();
 
     /**
      * 设置自动滑动状态
-     * @param autoSlideEnabled
+     * @param autoScrollEnable
      */
-    public abstract void setAutoSlideEnabled(boolean autoSlideEnabled);
+    public abstract void setAutoScrollEnable(boolean autoScrollEnable);
 
     /**
      * 设置滑动时间间隔
@@ -103,11 +87,40 @@ public abstract class AutoSlideBase extends FrameLayout  {
     public abstract void setTimeInterval(int timeInterval);
 
     /**
+     * 设置指示器Bottom Margin
+     * @param bottomMargin Bottom Margin
+     */
+    public abstract void setIndictorBottomMargin(int bottomMargin);
+
+    /**
+     * 设置指示器显示或者隐藏
+     * @param visible 显示或者隐藏
+     */
+    public abstract void setIndictorVisible(boolean visible);
+
+    /**
+     * 设置指示器之间间隔
+     * @param space 指示器之间间隔
+     */
+    public abstract void setIndictorSpace(int space);
+
+    /**
+     * 设置在单页情况下,指示器是否显示
+     * @param visibleInSingle 指示器显示或隐藏
+     */
+    public abstract void setIndictorVisibleInSingle(boolean visibleInSingle);
+
+    /**
      * 获取页面指示器
      */
     public PageControlBase getPageControl() {
-        return pageControl;
+        return mPageControl;
     }
+
+    /**
+     * 设置Adapter
+     */
+    public abstract void setAdapter(AutoScrollPagerAdapter adapter);
 
 
     //滑动事件监听类
@@ -133,9 +146,9 @@ public abstract class AutoSlideBase extends FrameLayout  {
          * 滑动状态改变时调用
          *
          * @param state The new scroll state.
-         * @see AutoSlideBase#SCROLL_STATE_IDLE
-         * @see AutoSlideBase#SCROLL_STATE_DRAGGING
-         * @see AutoSlideBase#SCROLL_STATE_SETTLING
+         * @see AutoScrollBase#SCROLL_STATE_IDLE
+         * @see AutoScrollBase#SCROLL_STATE_DRAGGING
+         * @see AutoScrollBase#SCROLL_STATE_SETTLING
          */
         public void onPageScrollStateChanged(int state);
     }

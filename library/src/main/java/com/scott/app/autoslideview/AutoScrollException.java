@@ -4,9 +4,9 @@ package com.scott.app.autoslideview;
  * 检测基本异常情况
  * @author scott
  */
-public class AutoSlideException extends RuntimeException {
+public class AutoScrollException extends RuntimeException {
 
-    public AutoSlideException(String msg) {
+    public AutoScrollException(String msg) {
         super(msg);
     }
 }

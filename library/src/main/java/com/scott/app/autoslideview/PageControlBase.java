@@ -1,64 +1,68 @@
 package com.scott.app.autoslideview;
 
-import android.annotation.TargetApi;
-import android.content.Context;
-import android.os.Build;
-import android.util.AttributeSet;
-import android.widget.LinearLayout;
+import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * 视图控制器基类
  * @author scott
  */
-public abstract class PageControlBase extends LinearLayout {
-    //样式设置
-    //当前指示器颜色
-    protected String currIndictorColor;
-
-    //正常状态下指示器颜色
-    protected String indictorColor;
-
-    //指示器间距
-    protected float indictorMargin;
-
-    //指示器半径
-    protected float indictorRadius;
-
-    //总页数
-    protected int totalPage;
+public abstract class PageControlBase<V extends View> {
     //当前页
-    protected int currPage;
+    protected int mCurrPage;
 
     //单页数据是否隐藏指示器
     protected boolean hideForSinglePage = true;
-
-    public PageControlBase(Context context) {
-        super(context);
-    }
-
-    public PageControlBase(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public PageControlBase(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public PageControlBase(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
-
-    //设置总页数
-    public abstract void setTotalPage(int totalPage);
 
     //设置当前页
     public abstract void setCurrPage(int currPage);
 
     public abstract void setHideForSinglePage(boolean hideForSinglePage);
 
+    public abstract V containerView();
+
+    public abstract void setAdapter(Adapter adapter);
+
+    public abstract void notifyDatasetChanged();
+
     public boolean getHideForSinglePage() {
         return hideForSinglePage;
+    }
+
+    public abstract void setVisible(boolean visible);
+
+    static abstract class Adapter<VH extends ViewHolder> {
+        private int mCurrPosition;
+        private PageControlBase mPageControl;
+
+        public abstract VH onCreateViewHolder(ViewGroup parent, int viewType);
+
+        public abstract void onBindViewHolder(VH holder, int position,int currentPosition);
+
+        public abstract int getItemCount();
+
+        public void setCurrPosition(int currPosition) {
+            mCurrPosition = currPosition > getItemCount() - 1 ? getItemCount() - 1 : currPosition;
+            mCurrPosition = mCurrPosition < 0 ? 0 : mCurrPosition;
+            if(null != mPageControl) {
+                mPageControl.notifyDatasetChanged();
+            }
+        }
+
+        public int getCurrPosition() {
+            return mCurrPosition;
+        }
+
+        public void setPageControl(PageControlBase pageControl) {
+            mPageControl = pageControl;
+        }
+    }
+
+    static class ViewHolder {
+        public View itemView;
+
+        public ViewHolder(View itemView) {
+            this.itemView = itemView;
+        }
     }
 }
