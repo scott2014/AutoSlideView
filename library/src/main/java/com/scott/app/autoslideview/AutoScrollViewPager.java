@@ -79,12 +79,13 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
         });
 
         addView(containerView, pc_lp);
-
         //自动滑动任务
         mScrollTask = new Runnable() {
             @Override
             public void run() {
-                mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
+                if(null != mAdapter && mAdapter.getCount() >= mViewPager.getCurrentItem() + 1) {
+                    mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
+                }
             }
         };
     }
@@ -97,7 +98,7 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
 
     @Override
     public void autoScroll() {
-        post(mScrollTask);
+        postDelayed(mScrollTask,mTimeInterval);
     }
 
     @Override
@@ -164,6 +165,9 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
             mViewPager.setAdapter(adapter);
             if(mAutoScrollEnable) {
                 mViewPager.setCurrentItem(adapter.getItemCount() * 100, false);
+            }
+            if(null != mPageControl && adapter.getItemCount() <= 1 && !mIndictorVisibleInSingle) {
+                mPageControl.setVisible(false);
             }
         }
     }

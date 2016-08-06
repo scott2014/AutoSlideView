@@ -46,6 +46,7 @@ public class PageControlView extends PageControlBase<RecyclerView> {
     public RecyclerView containerView() {
         if(null == mContainerView) {
             mContainerView = new RecyclerView(mContext);
+            mContainerView.setId(R.id.container_view);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false);
             mContainerView.setLayoutManager(linearLayoutManager);
         }

@@ -61,7 +61,7 @@ public abstract class AutoScrollPagerAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return mViewPager.mAutoScrollEnable ? Integer.MAX_VALUE : getItemCount();
+        return getItemCount() > 1 ? Integer.MAX_VALUE : getItemCount();
     }
 
     public void setViewPager(AutoScrollViewPager viewPager) {
