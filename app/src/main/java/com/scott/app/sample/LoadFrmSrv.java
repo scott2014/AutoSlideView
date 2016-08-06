@@ -11,14 +11,13 @@ import android.widget.ImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.scott.app.autoslideview.AutoSlideView;
-import com.scott.app.sample.R;
+import com.scott.app.autoslideview.AutoScrollViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LoadFrmSrv extends AppCompatActivity {
-    private AutoSlideView autoSlideView;
+    private AutoScrollViewPager autoSlideView;
     private ImageLoader imageLoader;
     private DisplayImageOptions options;
 
@@ -29,7 +28,7 @@ public class LoadFrmSrv extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_frm_srv);
 
-        autoSlideView = (AutoSlideView) findViewById(R.id.autoSlideView);
+        autoSlideView = (AutoScrollViewPager) findViewById(R.id.autoSlideView);
 
         addImageBtn = (Button) findViewById(R.id.add_new_image);
 
@@ -46,9 +45,9 @@ public class LoadFrmSrv extends AppCompatActivity {
         img2.setScaleType(ImageView.ScaleType.FIT_XY);
         images.add(img2);
 
-        autoSlideView.setSlideViews(images);
-        autoSlideView.setAutoSlideEnabled(false);
-//        autoSlideView.autoSlide();
+//        autoSlideView.setSlideViews(images);
+        autoSlideView.setAutoScrollEnable(false);
+//        autoSlideView.autoScroll();
 
         imageLoader = ImageLoader.getInstance();
         imageLoader.init(ImageLoaderConfiguration.createDefault(this));
@@ -64,7 +63,7 @@ public class LoadFrmSrv extends AppCompatActivity {
             public void onClick(View view) {
                 ImageView imageView = new ImageView(LoadFrmSrv.this);
                 imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                autoSlideView.addSlideView(imageView);
+//                autoSlideView.addSlideView(imageView);
                 imageLoader.displayImage("http://img4.duitang.com/uploads/item/201303/17/20130317153233_eTPi8.thumb.600_0.jpeg",imageView,options);
             }
         });

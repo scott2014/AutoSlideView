@@ -3,21 +3,19 @@ package com.scott.app.sample;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.scott.app.autoslideview.AutoSlideBase;
-import com.scott.app.autoslideview.AutoSlideView;
+import com.scott.app.autoslideview.AutoScrollPagerAdapter;
+import com.scott.app.autoslideview.AutoScrollViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private AutoSlideView slideView;
+    private AutoScrollViewPager slideView;
     private Button startBtn;
     private Button stopBtn;
     private Button showBtn;
@@ -30,44 +28,75 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setContentView(R.layout.activity_main);
 
-        slideView = (AutoSlideView) findViewById(R.id.autoSlideView);
+        slideView = (AutoScrollViewPager) findViewById(R.id.autoSlideView);
         startBtn = (Button) findViewById(R.id.start);
         stopBtn = (Button) findViewById(R.id.stop);
         showBtn = (Button) findViewById(R.id.show);
         hideBtn = (Button) findViewById(R.id.hide);
         loadFrmNetBtn = (Button) findViewById(R.id.loadFrmNet);
 
-        List<View> images = new ArrayList<>();
+        final List<View> images = new ArrayList<>();
 
         ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         ImageView img = new ImageView(this);
-        img.setImageResource(R.drawable.cat1);
+//        img.setImageResource(R.drawable.cat1);
         img.setLayoutParams(lp);
         img.setScaleType(ImageView.ScaleType.FIT_XY);
         images.add(img);
 
         ImageView img1 = new ImageView(this);
-        img1.setImageResource(R.drawable.cat2);
+//        img1.setImageResource(R.drawable.cat2);
         img1.setLayoutParams(lp);
         img1.setScaleType(ImageView.ScaleType.FIT_XY);
         images.add(img1);
 
         ImageView img2 = new ImageView(this);
-        img2.setImageResource(R.drawable.cat3);
         img2.setLayoutParams(lp);
         img2.setScaleType(ImageView.ScaleType.FIT_XY);
         images.add(img2);
 
-        slideView.setSlideViews(images);
-        slideView.autoSlide();
+        final int[] res = {R.drawable.cat1};
 
-        slideView.setOnItemClickListener(new AutoSlideBase.OnItemClickListener() {
+//        slideView.setAdapter(new AutoScrollPagerAdapter() {
+//            @Override
+//            public List<View> getItemViews() {
+//                return images;
+//            }
+//
+//            @Override
+//            public void destroyItem(ViewGroup container, int position, Object object) {
+//
+//            }
+//
+//            @Override
+//            public void onBindViewHolder(AutoScrollViewPager.ViewHolder holder, int position) {
+//                ((ImageView)holder.itemView).setImageResource(res[position]);
+//            }
+//
+//            @Override
+//            public boolean isViewFromObject(View view, Object object) {
+//                return view == object;
+//            }
+//        });
+
+        slideView.setAdapter(new AutoScrollPagerAdapter() {
             @Override
-            public void onItemClick(int index, View view) {
-                Toast.makeText(MainActivity.this, "index = " + index, Toast.LENGTH_LONG).show();
+            public void onBindView(View itemView, int position) {
+                ((ImageView)itemView).setImageResource(res[position]);
+            }
+
+            @Override
+            public int onLayoutId() {
+                return R.layout.image_view;
+            }
+
+            @Override
+            public int getItemCount() {
+                return res.length;
             }
         });
+        slideView.autoScroll();
 
         startBtn.setOnClickListener(this);
         stopBtn.setOnClickListener(this);
@@ -80,11 +109,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.start: {
-                slideView.autoSlide();
+                slideView.autoScroll();
                 break;
             }
             case R.id.stop: {
-                slideView.stopAutoSlide();
+                slideView.stopAutoScroll();
                 break;
             }
             case R.id.hide: {
@@ -107,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        slideView.stopAutoSlide();
+        slideView.stopAutoScroll();
     }
 
     @Override

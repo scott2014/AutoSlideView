@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
 
-    <com.scott.app.autoslideview.AutoSlideView
+    <com.scott.app.autoslideview.AutoScrollViewPager
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:id="@+id/autoSlideView"/>
