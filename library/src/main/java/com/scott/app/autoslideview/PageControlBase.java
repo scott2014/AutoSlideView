@@ -31,6 +31,8 @@ public abstract class PageControlBase<V extends View> {
 
     public abstract void setVisible(boolean visible);
 
+    public abstract boolean isVisible();
+
     static abstract class Adapter<VH extends ViewHolder> {
         private int mCurrPosition;
         private PageControlBase mPageControl;

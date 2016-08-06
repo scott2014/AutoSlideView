@@ -11,11 +11,12 @@ import java.util.List;
  *  自动滑动基础父类
  *  可继承该父类，自己实现滑动逻辑
  *  @author scott
- *  @link http://www.baidu.com
  */
 public abstract class AutoScrollBase extends FrameLayout  {
     // 是否开启自动滚动(默认开启)
     protected boolean mAutoScrollEnable = true;
+    // 自动滚动已开始
+    protected boolean mAutoScrollStarted = false;
     // 滑动时间间隔
     protected int mTimeInterval;
     // 指示器Margin Bottom

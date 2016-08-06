@@ -93,4 +93,9 @@ public class PageControlView extends PageControlBase<RecyclerView> {
     public void setVisible(boolean visible) {
         containerView().setVisibility(visible ? View.VISIBLE : View.GONE);
     }
+
+    @Override
+    public boolean isVisible() {
+        return containerView().getVisibility() == View.VISIBLE;
+    }
 }
