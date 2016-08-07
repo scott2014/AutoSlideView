@@ -14,6 +14,9 @@ public abstract class PageControlBase<V extends View> {
     //单页数据是否隐藏指示器
     protected boolean hideForSinglePage = true;
 
+    // OnItemClickListener监听器
+    protected OnItemClickListener onItemClickListener;
+
     //设置当前页
     public abstract void setCurrPage(int currPage);
 
@@ -32,6 +35,14 @@ public abstract class PageControlBase<V extends View> {
     public abstract void setVisible(boolean visible);
 
     public abstract boolean isVisible();
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    interface OnItemClickListener {
+        void onItemClick(View itemView,int position);
+    }
 
     static abstract class Adapter<VH extends ViewHolder> {
         private int mCurrPosition;

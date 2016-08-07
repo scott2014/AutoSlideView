@@ -34,9 +34,6 @@ public abstract class AutoScrollBase extends FrameLayout  {
     // 页面控制器
     protected PageControlBase mPageControl;
 
-    // 滑动视图
-    protected List<View> mSlideViews;
-
     // 标记滑动状态
     // 标记视图处于空闲状态或手动设置状态，即没有与用户交互
     public static final int SCROLL_STATE_IDLE = 0;
@@ -123,6 +120,7 @@ public abstract class AutoScrollBase extends FrameLayout  {
      */
     public abstract void setAdapter(AutoScrollPagerAdapter adapter);
 
+    public abstract void setOnIndictorClickListener(OnIndictorClickListener onIndictorClickListener);
 
     //滑动事件监听类
     public interface OnPageChangeListener {
@@ -134,14 +132,14 @@ public abstract class AutoScrollBase extends FrameLayout  {
          * @param positionOffset 页面滑动的百分比
          * @param positionOffsetPixels 页面滑动的像素
          */
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels);
+        void onPageScrolled(int position, float positionOffset, int positionOffsetPixels);
 
         /**
          * 当前页面被选中时调研
          *
          * @param position 选中页面的位置索引
          */
-        public void onPageSelected(int position);
+        void onPageSelected(int position);
 
         /**
          * 滑动状态改变时调用
@@ -151,13 +149,17 @@ public abstract class AutoScrollBase extends FrameLayout  {
          * @see AutoScrollBase#SCROLL_STATE_DRAGGING
          * @see AutoScrollBase#SCROLL_STATE_SETTLING
          */
-        public void onPageScrollStateChanged(int state);
+        void onPageScrollStateChanged(int state);
     }
 
     //滑动视图点击事件
     public interface OnItemClickListener {
         //滑动视图页面被点击
         void onItemClick(int index,View view);
+    }
+
+    public interface OnIndictorClickListener {
+        void onIndictorClick(View itemView,int position);
     }
 
     //设置滑动事件监听器

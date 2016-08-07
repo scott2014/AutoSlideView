@@ -88,8 +88,21 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
                 }
             }
         };
-    }
+        // 设置一个默认指示器监听器
+        setOnIndictorClickListener(new OnIndictorClickListener() {
+            @Override
+            public void onIndictorClick(View itemView, int position) {
+                int curr = mViewPager.getCurrentItem();
 
+                if(null != mAdapter && curr % mAdapter.getItemCount() != position) {
+                    if(mAutoScrollStarted) {
+                        AutoScrollViewPager.this.removeCallbacks(mScrollTask);
+                    }
+                    mViewPager.setCurrentItem(curr + (position - curr % mAdapter.getItemCount()));
+                }
+            }
+        });
+    }
 
     @Override
     public void setPageControl(PageControlBase pageControl) {
@@ -98,16 +111,17 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
 
     @Override
     public void autoScroll() {
-        postDelayed(mScrollTask,mTimeInterval);
-        mAutoScrollStarted = true;
+        if(!mAutoScrollStarted && mAutoScrollEnable) {
+            postDelayed(mScrollTask, mTimeInterval);
+            mAutoScrollStarted = true;
+        }
     }
 
     @Override
     public void stopAutoScroll() {
-        if (mAutoScrollEnable && mAutoScrollStarted) {
-            mAutoScrollEnable = false;
-            mAutoScrollStarted = false;
+        if (mAutoScrollStarted) {
             removeCallbacks(mScrollTask);
+            mAutoScrollStarted = false;
         }
     }
 
@@ -181,13 +195,25 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
     }
 
     @Override
+    public void setOnIndictorClickListener(final OnIndictorClickListener onIndictorClickListener) {
+        if(null != onIndictorClickListener && null != mPageControl) {
+            mPageControl.setOnItemClickListener(new PageControlBase.OnItemClickListener() {
+                @Override
+                public void onItemClick(View itemView, int position) {
+                    onIndictorClickListener.onIndictorClick(itemView,position);
+                }
+            });
+        }
+    }
+
+    @Override
     public void setOnPageChangeListener(OnPageChangeListener pageChangeListener) {
         this.onPageChangeListener = pageChangeListener;
     }
 
     @Override
-    public void setOnItemClickListener(final OnItemClickListener itemClickListener) {
-
+    public void setOnItemClickListener(OnItemClickListener itemClickListener) {
+        this.onItemClickListener = itemClickListener;
     }
 
     @Override
@@ -223,7 +249,7 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
 
     @Override
     public void onPageScrollStateChanged(int state) {
-        if (mAutoScrollEnable) {
+        if (mAutoScrollEnable && mAutoScrollStarted) {
             removeCallbacks(mScrollTask);
 
             if (ViewPager.SCROLL_STATE_IDLE == state) {

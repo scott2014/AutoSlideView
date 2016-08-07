@@ -69,7 +69,15 @@ public class PageControlView extends PageControlBase<RecyclerView> {
                 }
 
                 @Override
-                public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+                public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if(null != onItemClickListener) {
+                                onItemClickListener.onItemClick(view,position);
+                            }
+                        }
+                    });
                     adapter.onBindViewHolder(new ViewHolder(holder.itemView),position,adapter.getCurrPosition());
                 }
 

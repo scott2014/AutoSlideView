@@ -22,17 +22,18 @@ public class DefaultIndictorAdapter extends PageControlBase.Adapter {
 
         mSelectedDrawable = new GradientDrawable();
         mSelectedDrawable.setColor(Color.RED);
-        mSelectedDrawable.setCornerRadius(mUtil.dp2px(10));
+        mSelectedDrawable.setCornerRadius(mUtil.dp2px(30));
 
         mUnSelectedDrawable = new GradientDrawable();
         mUnSelectedDrawable.setColor(Color.YELLOW);
-        mUnSelectedDrawable.setCornerRadius(mUtil.dp2px(10));
+        mUnSelectedDrawable.setCornerRadius(mUtil.dp2px(30));
     }
 
     @Override
     public PageControlBase.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ImageView imageView = new ImageView(mContext);
-        imageView.setLayoutParams(new ViewGroup.LayoutParams(mUtil.dp2px(10),mUtil.dp2px(10)));
+        imageView.setClickable(true);
+        imageView.setLayoutParams(new ViewGroup.LayoutParams(mUtil.dp2px(30), mUtil.dp2px(30)));
         return new PageControlBase.ViewHolder(imageView);
     }
 

@@ -18,10 +18,10 @@ public abstract class AutoScrollPagerAdapter extends PagerAdapter {
     private List<View> mViews;
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(ViewGroup container, final int position) {
         prepare(container);
 
-        View itemView;
+        final View itemView;
         if(null != mAssistViews) {
             itemView = mAssistViews.get(position % mAssistViews.size());
         } else {
@@ -33,6 +33,14 @@ public abstract class AutoScrollPagerAdapter extends PagerAdapter {
         }
 
         onBindView(itemView,position % mViews.size());
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(null != mViewPager.onItemClickListener) {
+                    mViewPager.onItemClickListener.onItemClick(position % mViews.size(),itemView);
+                }
+            }
+        });
         container.addView(itemView);
         return itemView;
     }
