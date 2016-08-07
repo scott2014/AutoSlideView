@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 
 /**
  * 自动滑动视图类
+ *
  * @author scott
  */
 public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnPageChangeListener {
@@ -34,7 +35,7 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
     private PageControlBase.Adapter mIndictorAdapter;
 
     public AutoScrollViewPager(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public AutoScrollViewPager(Context context, AttributeSet attrs) {
@@ -50,10 +51,10 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
 
             mAutoScrollEnable = array.getBoolean(me.foji.widget.autoslideview.R.styleable.AutoScrollViewPager_autoScrollEnable, true);
             mTimeInterval = array.getInt(me.foji.widget.autoslideview.R.styleable.AutoScrollViewPager_timeInterval, DEFAULT_TIME_INTERVAL);
-            mIndictorVisibleInSingle = array.getBoolean(me.foji.widget.autoslideview.R.styleable.AutoScrollViewPager_indictorVisibleInSingle,false);
-            mIndictorVisible = array.getBoolean(me.foji.widget.autoslideview.R.styleable.AutoScrollViewPager_indictorVisible,true);
-            mIndictorBottomMargin = array.getDimension(me.foji.widget.autoslideview.R.styleable.AutoScrollViewPager_indictorBottomMargin,DEFAULT_BOTTOM_MARGIN);
-            mIndictorSpace = array.getDimension(me.foji.widget.autoslideview.R.styleable.AutoScrollViewPager_indictorSpace,DEFAULT_INDICTOR_SPACE);
+            mIndictorVisibleInSingle = array.getBoolean(me.foji.widget.autoslideview.R.styleable.AutoScrollViewPager_indictorVisibleInSingle, false);
+            mIndictorVisible = array.getBoolean(me.foji.widget.autoslideview.R.styleable.AutoScrollViewPager_indictorVisible, true);
+            mIndictorBottomMargin = array.getDimension(me.foji.widget.autoslideview.R.styleable.AutoScrollViewPager_indictorBottomMargin, DEFAULT_BOTTOM_MARGIN);
+            mIndictorSpace = array.getDimension(me.foji.widget.autoslideview.R.styleable.AutoScrollViewPager_indictorSpace, DEFAULT_INDICTOR_SPACE);
         }
 
         mViewPager = new ViewPager(context, attrs);
@@ -74,7 +75,7 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
         containerView.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                outRect.set((int)(mIndictorSpace / 2),0,(int)(mIndictorSpace / 2),0);
+                outRect.set((int) (mIndictorSpace / 2), 0, (int) (mIndictorSpace / 2), 0);
             }
         });
 
@@ -83,7 +84,7 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
         mScrollTask = new Runnable() {
             @Override
             public void run() {
-                if(null != mAdapter && mAdapter.getCount() >= mViewPager.getCurrentItem() + 1) {
+                if (null != mAdapter && mAdapter.getCount() >= mViewPager.getCurrentItem() + 1) {
                     mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
                 }
             }
@@ -94,8 +95,8 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
             public void onIndictorClick(View itemView, int position) {
                 int curr = mViewPager.getCurrentItem();
 
-                if(null != mAdapter && curr % mAdapter.getItemCount() != position) {
-                    if(mAutoScrollStarted) {
+                if (null != mAdapter && curr % mAdapter.getItemCount() != position) {
+                    if (mAutoScrollStarted) {
                         AutoScrollViewPager.this.removeCallbacks(mScrollTask);
                     }
                     mViewPager.setCurrentItem(curr + (position - curr % mAdapter.getItemCount()));
@@ -110,18 +111,9 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
     }
 
     @Override
-    public void autoScroll() {
-        if(!mAutoScrollStarted && mAutoScrollEnable) {
-            postDelayed(mScrollTask, mTimeInterval);
-            mAutoScrollStarted = true;
-        }
-    }
-
-    @Override
-    public void stopAutoScroll() {
-        if (mAutoScrollStarted) {
-            removeCallbacks(mScrollTask);
-            mAutoScrollStarted = false;
+    public void showPageControl(boolean show) {
+        if (null != mPageControl) {
+            mPageControl.setVisible(show);
         }
     }
 
@@ -137,7 +129,7 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
 
     @Override
     public void setIndictorBottomMargin(int bottomMargin) {
-        if(null != mPageControl) {
+        if (null != mPageControl) {
             FrameLayout.LayoutParams lp = (LayoutParams) mPageControl.containerView().getLayoutParams();
             lp.bottomMargin = util.dp2px(bottomMargin);
             mPageControl.containerView().setLayoutParams(lp);
@@ -146,7 +138,7 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
 
     @Override
     public void setIndictorVisible(boolean visible) {
-        if(null != mPageControl) {
+        if (null != mPageControl) {
             mPageControl.setVisible(visible);
         }
     }
@@ -154,7 +146,7 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
     @Override
     public void setIndictorSpace(int space) {
         mIndictorSpace = util.dp2px(space);
-        if(null != mPageControl) {
+        if (null != mPageControl) {
             mPageControl.notifyDatasetChanged();
         }
     }
@@ -166,29 +158,45 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
 
     public void setIndictorAdapter(PageControlBase.Adapter indictorAdapter) {
         mIndictorAdapter = indictorAdapter;
-        if(null != mPageControl) {
+        if (null != mPageControl) {
             mPageControl.setAdapter(indictorAdapter);
         }
     }
 
     private void setDefaultIndictor() {
         mIndictorAdapter = new DefaultIndictorAdapter(getContext());
-        ((DefaultIndictorAdapter)mIndictorAdapter).setCount(mAdapter.getItemCount());
+        ((DefaultIndictorAdapter) mIndictorAdapter).setCount(mAdapter.getItemCount());
         setIndictorAdapter(mIndictorAdapter);
     }
 
     @Override
+    public void autoScroll() {
+        if (!mAutoScrollStarted && mAutoScrollEnable) {
+            postDelayed(mScrollTask, mTimeInterval);
+            mAutoScrollStarted = true;
+        }
+    }
+
+    @Override
+    public void stopAutoScroll() {
+        if (mAutoScrollStarted) {
+            removeCallbacks(mScrollTask);
+            mAutoScrollStarted = false;
+        }
+    }
+
+    @Override
     public void setAdapter(AutoScrollPagerAdapter adapter) {
-        if(null != adapter) {
+        if (null != adapter) {
             adapter.setViewPager(this);
             mAdapter = adapter;
             setDefaultIndictor();
 
             mViewPager.setAdapter(adapter);
-            if(mAutoScrollEnable) {
+            if (mAutoScrollEnable) {
                 mViewPager.setCurrentItem(adapter.getItemCount() * 100, false);
             }
-            if(null != mPageControl && adapter.getItemCount() <= 1 && !mIndictorVisibleInSingle) {
+            if (null != mPageControl && adapter.getItemCount() <= 1 && !mIndictorVisibleInSingle) {
                 mPageControl.setVisible(false);
             }
         }
@@ -196,11 +204,11 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
 
     @Override
     public void setOnIndictorClickListener(final OnIndictorClickListener onIndictorClickListener) {
-        if(null != onIndictorClickListener && null != mPageControl) {
+        if (null != onIndictorClickListener && null != mPageControl) {
             mPageControl.setOnItemClickListener(new PageControlBase.OnItemClickListener() {
                 @Override
                 public void onItemClick(View itemView, int position) {
-                    onIndictorClickListener.onIndictorClick(itemView,position);
+                    onIndictorClickListener.onIndictorClick(itemView, position);
                 }
             });
         }
@@ -227,10 +235,11 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
     }
 
     @Override
-    public void showPageControl(boolean show) {
-        if(null != mPageControl) {
-            mPageControl.setVisible(show);
+    public int currPage() {
+        if (null != mAdapter) {
+            return mViewPager.getCurrentItem() % mAdapter.getItemCount();
         }
+        return 0;
     }
 
     @Override
@@ -242,7 +251,7 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
 
     @Override
     public void onPageSelected(int position) {
-        if(null != mIndictorAdapter && (null != mPageControl && mPageControl.isVisible())) {
+        if (null != mIndictorAdapter && (null != mPageControl && mPageControl.isVisible())) {
             mIndictorAdapter.setCurrPosition(position % mAdapter.getItemCount());
         }
     }
