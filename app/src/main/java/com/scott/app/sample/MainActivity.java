@@ -14,6 +14,7 @@ import java.util.List;
 
 import me.foji.widget.AutoScrollPagerAdapter;
 import me.foji.widget.AutoScrollViewPager;
+import me.foji.widget.PageControlBase;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private AutoScrollViewPager slideView;
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         img2.setScaleType(ImageView.ScaleType.FIT_XY);
         images.add(img2);
 
-        final int[] res = {R.drawable.cat1};
+        final int[] res = {R.drawable.cat1,R.drawable.cat2};
 
 //        slideView.setAdapter(new AutoScrollPagerAdapter() {
 //            @Override
@@ -97,6 +98,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return res.length;
             }
         });
+
+        slideView.setIndictorAdapter(new PageControlBase.Adapter() {
+            @Override
+            public PageControlBase.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                return null;
+            }
+
+            @Override
+            public void onBindViewHolder(PageControlBase.ViewHolder holder, int position, int currentPosition) {
+
+            }
+
+            @Override
+            public int getItemCount() {
+                return 0;
+            }
+        });
+
         slideView.autoScroll();
 
         startBtn.setOnClickListener(this);

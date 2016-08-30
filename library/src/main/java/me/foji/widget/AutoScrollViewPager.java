@@ -61,7 +61,6 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
         mViewPager.setId(R.id.scrollView);
         FrameLayout.LayoutParams vp_lp = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mViewPager.setLayoutParams(vp_lp);
-        mViewPager.setOffscreenPageLimit(0);
         mViewPager.addOnPageChangeListener(this);
         addView(mViewPager);
 
@@ -78,8 +77,8 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
                 outRect.set((int) (mIndictorSpace / 2), 0, (int) (mIndictorSpace / 2), 0);
             }
         });
-
         addView(containerView, pc_lp);
+
         //自动滑动任务
         mScrollTask = new Runnable() {
             @Override
@@ -131,7 +130,7 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
     public void setIndictorBottomMargin(int bottomMargin) {
         if (null != mPageControl) {
             FrameLayout.LayoutParams lp = (LayoutParams) mPageControl.containerView().getLayoutParams();
-            lp.bottomMargin = util.dp2px(bottomMargin);
+            lp.bottomMargin = (int) util.dp2px(bottomMargin);
             mPageControl.containerView().setLayoutParams(lp);
         }
     }
@@ -253,6 +252,9 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
     public void onPageSelected(int position) {
         if (null != mIndictorAdapter && (null != mPageControl && mPageControl.isVisible())) {
             mIndictorAdapter.setCurrPosition(position % mAdapter.getItemCount());
+        }
+        if(null != onPageChangeListener) {
+            onPageChangeListener.onPageSelected(position);
         }
     }
 

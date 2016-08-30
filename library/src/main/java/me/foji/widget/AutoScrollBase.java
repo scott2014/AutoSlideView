@@ -9,7 +9,7 @@ import android.widget.FrameLayout;
  * 自动滑动基础父类
  * 可继承该父类，自己实现滑动逻辑
  *
- * @author scott
+ * @author Scott Smith
  */
 public abstract class AutoScrollBase extends FrameLayout {
     // 是否开启自动滚动(默认开启)
@@ -188,12 +188,13 @@ public abstract class AutoScrollBase extends FrameLayout {
         void onPageScrollStateChanged(int state);
     }
 
-    //滑动视图点击事件
+    // 滑动视图点击事件
     public interface OnItemClickListener {
         //滑动视图页面被点击
         void onItemClick(int index, View view);
     }
 
+    // 指示器被点击事件
     public interface OnIndictorClickListener {
         void onIndictorClick(View itemView, int position);
     }
