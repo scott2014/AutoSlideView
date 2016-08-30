@@ -32,6 +32,7 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
     private final int DEFAULT_INDICTOR_SPACE = 5;
 
     private AutoScrollPagerAdapter mAdapter;
+    private AutoScrollPagerAdapterNew mAdapterNew;
     private PageControlBase.Adapter mIndictorAdapter;
 
     public AutoScrollViewPager(Context context) {
@@ -198,6 +199,13 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
             if (null != mPageControl && adapter.getItemCount() <= 1 && !mIndictorVisibleInSingle) {
                 mPageControl.setVisible(false);
             }
+        }
+    }
+
+    @Override
+    public void setAdapter(AutoScrollPagerAdapterNew adapter) {
+        if(null != adapter) {
+            mAdapterNew = adapter;
         }
     }
 

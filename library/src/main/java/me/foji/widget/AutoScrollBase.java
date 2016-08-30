@@ -136,6 +136,11 @@ public abstract class AutoScrollBase extends FrameLayout {
     public abstract void setAdapter(AutoScrollPagerAdapter adapter);
 
     /**
+     * 设置AutoScrollPagerAdapterNew
+     */
+    public abstract void setAdapter(AutoScrollPagerAdapterNew adapter);
+
+    /**
      * 设置页面切换监听器
      *
      * @param pageChangeListener 页面点击监听器
