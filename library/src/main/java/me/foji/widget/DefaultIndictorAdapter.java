@@ -33,7 +33,7 @@ public class DefaultIndictorAdapter extends PageControlBase.Adapter {
     public PageControlBase.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ImageView imageView = new ImageView(mContext);
         imageView.setClickable(true);
-        imageView.setLayoutParams(new ViewGroup.LayoutParams(mUtil.dp2px(30), mUtil.dp2px(30)));
+        imageView.setLayoutParams(new ViewGroup.LayoutParams((int)mUtil.dp2px(30), (int)mUtil.dp2px(30)));
         return new PageControlBase.ViewHolder(imageView);
     }
 

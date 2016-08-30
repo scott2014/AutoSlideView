@@ -12,11 +12,15 @@ import java.util.List;
 /**
  * @author Scott Smith @Date 2016年08月16/8/5日 20:23
  */
-public abstract class AutoScrollAdapterConnector extends PagerAdapter {
+public class AutoScrollAdapterConnector extends PagerAdapter {
     private AutoScrollViewPager mViewPager;
     private List<View> mAssistViews;
     private List<View> mViews;
+    private AutoScrollPagerAdapterNew mAdapter;
 
+    public AutoScrollAdapterConnector(AutoScrollPagerAdapterNew mAdapter) {
+        this.mAdapter = mAdapter;
+    }
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
@@ -33,7 +37,7 @@ public abstract class AutoScrollAdapterConnector extends PagerAdapter {
             container.removeView(itemView);
         }
 
-        onBindView(itemView,position % mViews.size());
+        mAdapter.onBindView(itemView,position % mViews.size());
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,16 +51,16 @@ public abstract class AutoScrollAdapterConnector extends PagerAdapter {
     }
 
     private void prepare(ViewGroup container) {
-        int count = getItemCount();
+        int count = mAdapter.getCount();
         if(null == mViews) {
             mViews = new ArrayList<>();
             for(int i = 0;i < count;i ++) {
-                mViews.add(LayoutInflater.from(container.getContext()).inflate(onLayoutId(),container,false));
+                mViews.add(LayoutInflater.from(container.getContext()).inflate(mAdapter.onLayoutId(),container,false));
             }
         }
         if(count == 2 && null == mAssistViews) {
             mAssistViews = new ArrayList<>(mViews);
-            mAssistViews.add(LayoutInflater.from(container.getContext()).inflate(onLayoutId(),container,false));
+            mAssistViews.add(LayoutInflater.from(container.getContext()).inflate(mAdapter.onLayoutId(),container,false));
         }
     }
 
@@ -70,14 +74,10 @@ public abstract class AutoScrollAdapterConnector extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return getItemCount() > 1 ? Integer.MAX_VALUE : getItemCount();
+        return mAdapter.getCount() > 1 ? Integer.MAX_VALUE : mAdapter.getCount();
     }
 
     public void setViewPager(AutoScrollViewPager viewPager) {
         mViewPager = viewPager;
     }
-
-    public abstract void onBindView(View itemView,int position);
-    public abstract @LayoutRes int onLayoutId();
-    public abstract int getItemCount();
 }

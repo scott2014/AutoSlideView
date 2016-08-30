@@ -33,6 +33,7 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
 
     private AutoScrollPagerAdapter mAdapter;
     private AutoScrollPagerAdapterNew mAdapterNew;
+    private AutoScrollAdapterConnector mConnector;
     private PageControlBase.Adapter mIndictorAdapter;
 
     public AutoScrollViewPager(Context context) {
@@ -56,6 +57,8 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
             mIndictorVisible = array.getBoolean(R.styleable.AutoScrollViewPager_indictorVisible, true);
             mIndictorBottomMargin = array.getDimension(R.styleable.AutoScrollViewPager_indictorBottomMargin, DEFAULT_BOTTOM_MARGIN);
             mIndictorSpace = array.getDimension(R.styleable.AutoScrollViewPager_indictorSpace, DEFAULT_INDICTOR_SPACE);
+
+            array.recycle();
         }
 
         mViewPager = new ViewPager(context, attrs);
@@ -165,7 +168,7 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
 
     private void setDefaultIndictor() {
         mIndictorAdapter = new DefaultIndictorAdapter(getContext());
-        ((DefaultIndictorAdapter) mIndictorAdapter).setCount(mAdapter.getItemCount());
+        ((DefaultIndictorAdapter) mIndictorAdapter).setCount(mAdapterNew.getCount());
         setIndictorAdapter(mIndictorAdapter);
     }
 
@@ -206,6 +209,19 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
     public void setAdapter(AutoScrollPagerAdapterNew adapter) {
         if(null != adapter) {
             mAdapterNew = adapter;
+            mConnector = new AutoScrollAdapterConnector(mAdapterNew);
+            mConnector.setViewPager(this);
+            mAdapterNew.setAdapter(mConnector);
+            setDefaultIndictor();
+
+            mViewPager.setAdapter(mConnector);
+
+            if (mAutoScrollEnable) {
+                mViewPager.setCurrentItem(adapter.getCount() * 100, false);
+            }
+            if (null != mPageControl && adapter.getCount() <= 1 && !mIndictorVisibleInSingle) {
+                mPageControl.setVisible(false);
+            }
         }
     }
 
