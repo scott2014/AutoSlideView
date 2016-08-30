@@ -11,10 +11,11 @@ import android.widget.ImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.scott.app.autoslideview.AutoScrollViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import me.foji.widget.AutoScrollViewPager;
 
 public class LoadFrmSrv extends AppCompatActivity {
     private AutoScrollViewPager autoSlideView;

@@ -8,11 +8,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.scott.app.autoslideview.AutoScrollPagerAdapter;
-import com.scott.app.autoslideview.AutoScrollViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import me.foji.widget.AutoScrollPagerAdapter;
+import me.foji.widget.AutoScrollViewPager;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private AutoScrollViewPager slideView;

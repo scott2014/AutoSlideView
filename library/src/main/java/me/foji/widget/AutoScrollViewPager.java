@@ -47,18 +47,18 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
         util = new Util(context);
 
         if (null != attrs) {
-            TypedArray array = context.getTheme().obtainStyledAttributes(attrs, me.foji.widget.autoslideview.R.styleable.AutoScrollViewPager, 0, 0);
+            TypedArray array = context.getTheme().obtainStyledAttributes(attrs, R.styleable.AutoScrollViewPager, 0, 0);
 
-            mAutoScrollEnable = array.getBoolean(me.foji.widget.autoslideview.R.styleable.AutoScrollViewPager_autoScrollEnable, true);
-            mTimeInterval = array.getInt(me.foji.widget.autoslideview.R.styleable.AutoScrollViewPager_timeInterval, DEFAULT_TIME_INTERVAL);
-            mIndictorVisibleInSingle = array.getBoolean(me.foji.widget.autoslideview.R.styleable.AutoScrollViewPager_indictorVisibleInSingle, false);
-            mIndictorVisible = array.getBoolean(me.foji.widget.autoslideview.R.styleable.AutoScrollViewPager_indictorVisible, true);
-            mIndictorBottomMargin = array.getDimension(me.foji.widget.autoslideview.R.styleable.AutoScrollViewPager_indictorBottomMargin, DEFAULT_BOTTOM_MARGIN);
-            mIndictorSpace = array.getDimension(me.foji.widget.autoslideview.R.styleable.AutoScrollViewPager_indictorSpace, DEFAULT_INDICTOR_SPACE);
+            mAutoScrollEnable = array.getBoolean(R.styleable.AutoScrollViewPager_autoScrollEnable, true);
+            mTimeInterval = array.getInt(R.styleable.AutoScrollViewPager_timeInterval, DEFAULT_TIME_INTERVAL);
+            mIndictorVisibleInSingle = array.getBoolean(R.styleable.AutoScrollViewPager_indictorVisibleInSingle, false);
+            mIndictorVisible = array.getBoolean(R.styleable.AutoScrollViewPager_indictorVisible, true);
+            mIndictorBottomMargin = array.getDimension(R.styleable.AutoScrollViewPager_indictorBottomMargin, DEFAULT_BOTTOM_MARGIN);
+            mIndictorSpace = array.getDimension(R.styleable.AutoScrollViewPager_indictorSpace, DEFAULT_INDICTOR_SPACE);
         }
 
         mViewPager = new ViewPager(context, attrs);
-        mViewPager.setId(me.foji.widget.autoslideview.R.id.scrollView);
+        mViewPager.setId(R.id.scrollView);
         FrameLayout.LayoutParams vp_lp = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mViewPager.setLayoutParams(vp_lp);
         mViewPager.setOffscreenPageLimit(0);

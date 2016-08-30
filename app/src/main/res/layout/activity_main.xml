@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
 
-    <com.scott.app.autoslideview.AutoScrollViewPager
+    <me.foji.widget.AutoScrollViewPager
         android:layout_width="match_parent"
         android:layout_height="150dp"
         app:indictorBottomMargin="5dp"
