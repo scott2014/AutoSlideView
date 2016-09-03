@@ -85,7 +85,7 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
         mScrollTask = new Runnable() {
             @Override
             public void run() {
-                if (null != mAdapter && mAdapter.getCount() >= mViewPager.getCurrentItem() + 1) {
+                if (null != mAdapter && mAdapter.count() >= mViewPager.getCurrentItem() + 1) {
                     mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
                 }
             }
@@ -158,16 +158,16 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
     }
 
     public void setIndictorAdapter(PageControlBase.Adapter indictorAdapter) {
+        if(null == indictorAdapter) {
+            indictorAdapter = new DefaultIndictorAdapter(getContext());
+            if(null != mAdapter) {
+                ((DefaultIndictorAdapter)indictorAdapter).setCount(mAdapter.getCount());
+            }
+        }
         mIndictorAdapter = indictorAdapter;
         if (null != mPageControl) {
             mPageControl.setAdapter(indictorAdapter);
         }
-    }
-
-    private void setDefaultIndictor() {
-        mIndictorAdapter = new DefaultIndictorAdapter(getContext());
-        ((DefaultIndictorAdapter) mIndictorAdapter).setCount(mAdapter.getCount());
-        setIndictorAdapter(mIndictorAdapter);
     }
 
     @Override
@@ -194,9 +194,10 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
             mAdapter = adapter;
             mAdapter.setOnChangeLister(pAdapter);
             pAdapter.setBindView(mAdapter);
+            mAdapter.setCount(pAdapter.getCount());
             mViewPager.setAdapter(pAdapter);
 
-            setDefaultIndictor();
+            setIndictorAdapter(mIndictorAdapter);
             mViewPager.setAdapter(pAdapter);
 
             if (mAutoScrollEnable) {
