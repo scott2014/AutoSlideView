@@ -131,11 +131,6 @@ public abstract class AutoScrollBase extends FrameLayout {
     public abstract int currPage();
 
     /**
-     * 设置AutoScrollPagerAdapter
-     */
-    public abstract void setAdapter(AutoScrollPagerAdapter adapter);
-
-    /**
      * 设置AutoScrollPagerAdapterNew
      */
     public abstract void setAdapter(AutoScrollPagerAdapterNew adapter);

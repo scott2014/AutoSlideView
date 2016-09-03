@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.foji.widget.AutoScrollPagerAdapter;
+import me.foji.widget.AutoScrollPagerAdapterNew;
 import me.foji.widget.AutoScrollViewPager;
 import me.foji.widget.PageControlBase;
 
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            }
 //        });
 
-        slideView.setAdapter(new AutoScrollPagerAdapter() {
+        slideView.setAdapter(new AutoScrollPagerAdapterNew() {
             @Override
             public void onBindView(View itemView, int position) {
                 ((ImageView)itemView).setImageResource(res[position]);
@@ -94,25 +95,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
 
             @Override
-            public int getItemCount() {
+            public int getCount() {
                 return res.length;
-            }
-        });
-
-        slideView.setIndictorAdapter(new PageControlBase.Adapter() {
-            @Override
-            public PageControlBase.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                return null;
-            }
-
-            @Override
-            public void onBindViewHolder(PageControlBase.ViewHolder holder, int position, int currentPosition) {
-
-            }
-
-            @Override
-            public int getItemCount() {
-                return 0;
             }
         });
 

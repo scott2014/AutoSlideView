@@ -44,7 +44,7 @@ public abstract class PageControlBase<V extends View> {
         void onItemClick(View itemView,int position);
     }
 
-    static abstract class Adapter<VH extends ViewHolder> {
+    public static abstract class Adapter<VH extends ViewHolder> {
         private int mCurrPosition;
         private PageControlBase mPageControl;
 
@@ -71,7 +71,7 @@ public abstract class PageControlBase<V extends View> {
         }
     }
 
-    static class ViewHolder {
+    public static class ViewHolder {
         public View itemView;
 
         public ViewHolder(View itemView) {
