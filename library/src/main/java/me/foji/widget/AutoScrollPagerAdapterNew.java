@@ -14,8 +14,6 @@ public abstract class AutoScrollPagerAdapterNew {
     private AutoScrollAdapter mAdapter;
 
     private final DataSetObservable mObservable = new DataSetObservable();
-    private DataSetObserver mViewPagerObserver;
-
 
     public void registerDataSetObserver(DataSetObserver observer) {
         mObservable.registerObserver(observer);
@@ -25,18 +23,12 @@ public abstract class AutoScrollPagerAdapterNew {
         mObservable.unregisterObserver(observer);
     }
 
-    void setViewPagerObserver(DataSetObserver observer) {
-        synchronized (this) {
-            mViewPagerObserver = observer;
-        }
-    }
-
     public void setAdapter(AutoScrollAdapter adapter) {
         mAdapter = adapter;
     }
 
     public void notifyDataSetChanged() {
-        if(null != mAdapter) mAdapter.notifyDataSetChanged();
+        mObservable.notifyChanged();
     }
 
     public abstract int getCount();
