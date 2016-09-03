@@ -12,13 +12,13 @@ import java.util.List;
 /**
  * @author Scott Smith @Date 2016年08月16/8/5日 20:23
  */
-public class AutoScrollAdapterConnector extends PagerAdapter {
+public class AutoScrollAdapter extends PagerAdapter {
     private AutoScrollViewPager mViewPager;
     private List<View> mAssistViews;
     private List<View> mViews;
     private AutoScrollPagerAdapterNew mAdapter;
 
-    public AutoScrollAdapterConnector(AutoScrollPagerAdapterNew mAdapter) {
+    public AutoScrollAdapter(AutoScrollPagerAdapterNew mAdapter) {
         this.mAdapter = mAdapter;
     }
 

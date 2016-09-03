@@ -1,6 +1,5 @@
 package me.foji.widget;
 
-import android.database.DataSetObserver;
 import android.support.annotation.LayoutRes;
 import android.view.View;
 
@@ -10,9 +9,9 @@ import android.view.View;
  * @author Scott Smith  @Date 2016年08月16/8/30日 19:51
  */
 public abstract class AutoScrollPagerAdapterNew {
-    private AutoScrollAdapterConnector mAdapter;
+    private AutoScrollAdapter mAdapter;
 
-    public void setAdapter(AutoScrollAdapterConnector adapter) {
+    public void setAdapter(AutoScrollAdapter adapter) {
         mAdapter = adapter;
     }
 
