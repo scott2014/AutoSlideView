@@ -18,6 +18,13 @@ public class AutoScrollAdapter extends PagerAdapter {
     private List<View> mViews;
     private AutoScrollPagerAdapterNew mAdapter;
 
+
+    public abstract class IBindView {
+        abstract void onBindView(View itemView,int position);
+        abstract int getCount();
+        abstract @LayoutRes int layoutId();
+    }
+
     public AutoScrollAdapter(AutoScrollPagerAdapterNew mAdapter) {
         this.mAdapter = mAdapter;
     }

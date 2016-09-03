@@ -1,5 +1,7 @@
 package me.foji.widget;
 
+import android.database.DataSetObservable;
+import android.database.DataSetObserver;
 import android.support.annotation.LayoutRes;
 import android.view.View;
 
@@ -10,6 +12,24 @@ import android.view.View;
  */
 public abstract class AutoScrollPagerAdapterNew {
     private AutoScrollAdapter mAdapter;
+
+    private final DataSetObservable mObservable = new DataSetObservable();
+    private DataSetObserver mViewPagerObserver;
+
+
+    public void registerDataSetObserver(DataSetObserver observer) {
+        mObservable.registerObserver(observer);
+    }
+
+    public void unregisterDataSetObserver(DataSetObserver observer) {
+        mObservable.unregisterObserver(observer);
+    }
+
+    void setViewPagerObserver(DataSetObserver observer) {
+        synchronized (this) {
+            mViewPagerObserver = observer;
+        }
+    }
 
     public void setAdapter(AutoScrollAdapter adapter) {
         mAdapter = adapter;
