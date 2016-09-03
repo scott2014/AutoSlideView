@@ -32,7 +32,7 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
     private final int DEFAULT_INDICTOR_SPACE = 5;
 
     private PageControlBase.Adapter mIndictorAdapter;
-    private AdapterConnector mAdapterConnector;
+    private AutoScrollPagerAdapter mAdapter;
 
     public AutoScrollViewPager(Context context) {
         this(context, null);
@@ -85,7 +85,7 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
         mScrollTask = new Runnable() {
             @Override
             public void run() {
-                if (null != mAdapterConnector && mAdapterConnector.adapter.getCount() >= mViewPager.getCurrentItem() + 1) {
+                if (null != mAdapter && mAdapter.getCount() >= mViewPager.getCurrentItem() + 1) {
                     mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
                 }
             }
@@ -96,11 +96,11 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
             public void onIndictorClick(View itemView, int position) {
                 int curr = mViewPager.getCurrentItem();
 
-                if (null != mAdapterConnector && curr % mAdapterConnector.adapter.getCount() != position) {
+                if (null != mAdapter && curr % mAdapter.getCount() != position) {
                     if (mAutoScrollStarted) {
                         AutoScrollViewPager.this.removeCallbacks(mScrollTask);
                     }
-                    mViewPager.setCurrentItem(curr + (position - curr % mAdapterConnector.adapter.getCount()));
+                    mViewPager.setCurrentItem(curr + (position - curr % mAdapter.getCount()));
                 }
             }
         });
@@ -166,7 +166,7 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
 
     private void setDefaultIndictor() {
         mIndictorAdapter = new DefaultIndictorAdapter(getContext());
-        ((DefaultIndictorAdapter) mIndictorAdapter).setCount(mAdapterConnector.adapter.getCount());
+        ((DefaultIndictorAdapter) mIndictorAdapter).setCount(mAdapter.getCount());
         setIndictorAdapter(mIndictorAdapter);
     }
 
@@ -187,17 +187,16 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
     }
 
     @Override
-    public void setAdapter(AutoScrollPagerAdapterNew adapter) {
+    public void setAdapter(AutoScrollPagerAdapter adapter) {
         if(null != adapter) {
-            mAdapterConnector = new AdapterConnector();
-            mAdapterConnector.adapter = adapter;
-
-            AutoScrollAdapter pAdapter = new AutoScrollAdapter(adapter);
+            ActualPagerAdapter pAdapter = new ActualPagerAdapter();
             pAdapter.setViewPager(this);
-            mAdapterConnector.pAdapter = pAdapter;
+            mAdapter = adapter;
+            mAdapter.setOnChangeLister(pAdapter);
+            pAdapter.setBindView(mAdapter);
             mViewPager.setAdapter(pAdapter);
-            setDefaultIndictor();
 
+            setDefaultIndictor();
             mViewPager.setAdapter(pAdapter);
 
             if (mAutoScrollEnable) {
@@ -243,8 +242,8 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
 
     @Override
     public int currPage() {
-        if (null != mAdapterConnector) {
-            return mViewPager.getCurrentItem() % mAdapterConnector.adapter.getCount();
+        if (null != mAdapter) {
+            return mViewPager.getCurrentItem() % mAdapter.getCount();
         }
         return 0;
     }
@@ -259,8 +258,8 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
     @Override
     public void onPageSelected(int position) {
         if (null != mIndictorAdapter && (null != mPageControl && mPageControl.isVisible())) {
-            if(null != mAdapterConnector) {
-                mIndictorAdapter.setCurrPosition(position % mAdapterConnector.adapter.getCount());
+            if(null != mAdapter) {
+                mIndictorAdapter.setCurrPosition(position % mAdapter.getCount());
             }
         }
         if(null != onPageChangeListener) {

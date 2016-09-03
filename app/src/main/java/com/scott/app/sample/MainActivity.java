@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.foji.widget.AutoScrollPagerAdapterNew;
+import me.foji.widget.AutoScrollPagerAdapter;
 import me.foji.widget.AutoScrollViewPager;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         final int[] res = {R.drawable.cat1,R.drawable.cat2};
 
-//        slideView.setAdapter(new AutoScrollPagerAdapter() {
+//        slideView.setAdapter(new ActualPagerAdapter() {
 //            @Override
 //            public List<View> getItemViews() {
 //                return images;
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            }
 //        });
 
-        slideView.setAdapter(new AutoScrollPagerAdapterNew() {
+        slideView.setAdapter(new AutoScrollPagerAdapter() {
             @Override
             public void onBindView(View itemView, int position) {
                 ((ImageView)itemView).setImageResource(res[position]);

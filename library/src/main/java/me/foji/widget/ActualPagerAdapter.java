@@ -1,7 +1,5 @@
 package me.foji.widget;
 
-import android.database.DataSetObserver;
-import android.support.annotation.LayoutRes;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,21 +11,19 @@ import java.util.List;
 /**
  * @author Scott Smith @Date 2016年08月16/8/5日 20:23
  */
-public class AutoScrollAdapter extends PagerAdapter {
+public class ActualPagerAdapter extends PagerAdapter implements OnChangeListener {
     private AutoScrollViewPager mViewPager;
     private List<View> mAssistViews;
     private List<View> mViews;
-    private AutoScrollPagerAdapterNew mAdapter;
+    private IBindView mBindView;
 
-
-    public abstract class IBindView {
-        abstract void onBindView(View itemView,int position);
-        abstract int getCount();
-        abstract @LayoutRes int layoutId();
+    @Override
+    public void onChange() {
+        notifyDataSetChanged();
     }
 
-    public AutoScrollAdapter(AutoScrollPagerAdapterNew mAdapter) {
-        this.mAdapter = mAdapter;
+    public void setBindView(IBindView bindView) {
+        mBindView = bindView;
     }
 
     @Override
@@ -45,7 +41,7 @@ public class AutoScrollAdapter extends PagerAdapter {
             container.removeView(itemView);
         }
 
-        mAdapter.onBindView(itemView,position % mViews.size());
+        mBindView.onBindView(itemView,position % mViews.size());
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,16 +55,16 @@ public class AutoScrollAdapter extends PagerAdapter {
     }
 
     private void prepare(ViewGroup container) {
-        int count = mAdapter.getCount();
+        int count = mBindView.getCount();
         if(null == mViews) {
             mViews = new ArrayList<>();
             for(int i = 0;i < count;i ++) {
-                mViews.add(LayoutInflater.from(container.getContext()).inflate(mAdapter.onLayoutId(),container,false));
+                mViews.add(LayoutInflater.from(container.getContext()).inflate(mBindView.onLayoutId(),container,false));
             }
         }
         if(count == 2 && null == mAssistViews) {
             mAssistViews = new ArrayList<>(mViews);
-            mAssistViews.add(LayoutInflater.from(container.getContext()).inflate(mAdapter.onLayoutId(),container,false));
+            mAssistViews.add(LayoutInflater.from(container.getContext()).inflate(mBindView.onLayoutId(),container,false));
         }
     }
 
@@ -82,7 +78,7 @@ public class AutoScrollAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return mAdapter.getCount() > 1 ? Integer.MAX_VALUE : mAdapter.getCount();
+        return mBindView.getCount() > 1 ? Integer.MAX_VALUE : mBindView.getCount();
     }
 
     public void setViewPager(AutoScrollViewPager viewPager) {
