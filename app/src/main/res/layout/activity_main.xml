@@ -13,7 +13,7 @@
         app:indictorBottomMargin="5dp"
         app:indictorSpace="10dp"
         app:timeInterval="3000"
-        app:indictorVisibleInSingle="true"
+        app:indictorVisibleInSingle="false"
         android:id="@+id/autoSlideView"
         android:visibility="visible"/>
 

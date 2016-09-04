@@ -7,9 +7,11 @@ import android.view.ViewGroup;
  * 视图控制器基类
  * @author scott
  */
-public abstract class PageControlBase<V extends View> {
-    //当前页
+public abstract class PageControlBase<V extends View> implements OnChangeListener {
+    // 当前页
     protected int mCurrPage;
+    // 总页数
+    protected int mTotalPage;
 
     //单页数据是否隐藏指示器
     protected boolean hideForSinglePage = true;
@@ -19,6 +21,10 @@ public abstract class PageControlBase<V extends View> {
 
     //设置当前页
     public abstract void setCurrPage(int currPage);
+    // 设置总页数
+    public void setTotalPage(int totalPage) {
+        mTotalPage = totalPage;
+    }
 
     public abstract void setHideForSinglePage(boolean hideForSinglePage);
 
@@ -44,6 +50,11 @@ public abstract class PageControlBase<V extends View> {
         void onItemClick(View itemView,int position);
     }
 
+    @Override
+    public void onChange() {
+        notifyDatasetChanged();
+    }
+
     public static abstract class Adapter<VH extends ViewHolder> {
         private int mCurrPosition;
         private PageControlBase mPageControl;
@@ -52,7 +63,9 @@ public abstract class PageControlBase<V extends View> {
 
         public abstract void onBindViewHolder(VH holder, int position,int currentPosition);
 
-        public abstract int getItemCount();
+        public final int getItemCount() {
+            return mPageControl.mTotalPage;
+        }
 
         public void setCurrPosition(int currPosition) {
             mCurrPosition = currPosition > getItemCount() - 1 ? getItemCount() - 1 : currPosition;

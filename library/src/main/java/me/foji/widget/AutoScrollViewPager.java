@@ -160,13 +160,22 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
     public void setIndictorAdapter(PageControlBase.Adapter indictorAdapter) {
         if(null == indictorAdapter) {
             indictorAdapter = new DefaultIndictorAdapter(getContext());
-            if(null != mAdapter) {
-                ((DefaultIndictorAdapter)indictorAdapter).setCount(mAdapter.getCount());
-            }
         }
         mIndictorAdapter = indictorAdapter;
         if (null != mPageControl) {
             mPageControl.setAdapter(indictorAdapter);
+        }
+    }
+
+    public void updateIndictorStatus() {
+        if(null != mPageControl) {
+            if(mPageControl.mTotalPage <= 1) {
+                mPageControl.setVisible(mIndictorVisibleInSingle);
+                mPageControl.setCurrPage(0);
+            } else {
+                mPageControl.setVisible(true);
+                if(mPageControl.mCurrPage > mPageControl.mTotalPage) mPageControl.setCurrPage(mPageControl.mTotalPage);
+            }
         }
     }
 
@@ -192,12 +201,9 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
             ActualPagerAdapter pAdapter = new ActualPagerAdapter();
             pAdapter.setViewPager(this);
             mAdapter = adapter;
-            mAdapter.setOnChangeLister(pAdapter);
+            mAdapter.addOnChangeListener(pAdapter);
             pAdapter.setBindView(mAdapter);
             mAdapter.setCount(pAdapter.getCount());
-            mViewPager.setAdapter(pAdapter);
-
-            setIndictorAdapter(mIndictorAdapter);
             mViewPager.setAdapter(pAdapter);
 
             if (mAutoScrollEnable) {
@@ -206,6 +212,13 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
             if (null != mPageControl && adapter.getCount() <= 1 && !mIndictorVisibleInSingle) {
                 mPageControl.setVisible(false);
             }
+
+            if(null != mPageControl) {
+                mPageControl.setTotalPage(mAdapter.getCount());
+                mAdapter.addOnChangeListener(mPageControl);
+            }
+
+            setIndictorAdapter(mIndictorAdapter);
         }
     }
 

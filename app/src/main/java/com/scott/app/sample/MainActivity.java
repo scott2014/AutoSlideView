@@ -1,6 +1,7 @@
 package com.scott.app.sample;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -56,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         img2.setScaleType(ImageView.ScaleType.FIT_XY);
         images.add(img2);
 
-        final int[] res = {R.drawable.cat1,R.drawable.cat2};
 
 //        slideView.setAdapter(new ActualPagerAdapter() {
 //            @Override
@@ -80,30 +80,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            }
 //        });
 
-        slideView.setAdapter(new AutoScrollPagerAdapter() {
-            @Override
-            public void onBindView(View itemView, int position) {
-                ((ImageView)itemView).setImageResource(res[position]);
-            }
-
-            @Override
-            public int onLayoutId() {
-                return R.layout.image_view;
-            }
-
-            @Override
-            public int getCount() {
-                return res.length;
-            }
-        });
+        final PAdapter adapter = new PAdapter();
+        slideView.setAdapter(adapter);
 
         slideView.autoScroll();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                adapter.res = new int[] {R.drawable.cat1};
+                adapter.notifyDataSetChanged();
+            }
+        },3000);
 
         startBtn.setOnClickListener(this);
         stopBtn.setOnClickListener(this);
         showBtn.setOnClickListener(this);
         hideBtn.setOnClickListener(this);
         loadFrmNetBtn.setOnClickListener(this);
+    }
+
+    class PAdapter extends AutoScrollPagerAdapter {
+        public int[] res = {R.drawable.cat1,R.drawable.cat2};
+
+        @Override
+        public void onBindView(View itemView, int position) {
+            ((ImageView)itemView).setImageResource(res[position]);
+        }
+
+        @Override
+        public int onLayoutId() {
+            return R.layout.image_view;
+        }
+
+        @Override
+        public int getCount() {
+            return res.length;
+        }
+
+        public void setRes(int[] res) {
+            this.res = res;
+        }
     }
 
     @Override

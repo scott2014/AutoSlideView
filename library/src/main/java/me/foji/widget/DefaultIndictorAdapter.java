@@ -14,7 +14,6 @@ public class DefaultIndictorAdapter extends PageControlBase.Adapter {
     private GradientDrawable mSelectedDrawable;
     private GradientDrawable mUnSelectedDrawable;
     private Util mUtil;
-    private int mCount;
 
     public DefaultIndictorAdapter(Context context) {
         mContext = context;
@@ -44,14 +43,5 @@ public class DefaultIndictorAdapter extends PageControlBase.Adapter {
         } else {
             ((ImageView)holder.itemView).setImageDrawable(mUnSelectedDrawable);
         }
-    }
-
-    public void setCount(int count) {
-        mCount = count;
-    }
-
-    @Override
-    public int getItemCount() {
-        return mCount;
     }
 }

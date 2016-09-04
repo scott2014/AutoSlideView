@@ -1,5 +1,7 @@
 package me.foji.widget;
 
+import java.util.ArrayList;
+
 /**
  * AutoScrollViewPagerAdapter
  *
@@ -7,14 +9,22 @@ package me.foji.widget;
  */
 public abstract class AutoScrollPagerAdapter extends IBindView {
     private OnChangeListener onChangeListener;
+    private ArrayList<OnChangeListener> listeners = new ArrayList<>();
 
     public void setOnChangeLister(OnChangeListener onChangeListener) {
         this.onChangeListener = onChangeListener;
     }
 
+    public void addOnChangeListener(OnChangeListener listener) {
+        listeners.add(listener);
+    }
+
     public void notifyDataSetChanged() {
         synchronized(this) {
            if(null != onChangeListener) onChangeListener.onChange();
+        }
+        for(OnChangeListener listener : listeners) {
+            listener.onChange();
         }
     }
 }
