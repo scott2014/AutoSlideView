@@ -17,7 +17,6 @@ import android.widget.FrameLayout;
  * @author scott
  */
 public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnPageChangeListener {
-    // 使用ViewPager实现滑动页面，也可以使用HorizontalScrollView实现
     private ViewPager mViewPager;
     // 自动滑动任务
     private Runnable mScrollTask;
@@ -109,6 +108,26 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
     @Override
     public void setPageControl(PageControlBase pageControl) {
         mPageControl = pageControl;
+        for(int i = 0;i < getChildCount();i ++) {
+            if(!(getChildAt(i) instanceof ViewPager)) {
+                removeView(getChildAt(i));
+            }
+        }
+        FrameLayout.LayoutParams pc_lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        pc_lp.bottomMargin = (int) mIndictorBottomMargin;
+        pc_lp.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
+
+        View containerView = mPageControl.containerView();
+
+        if(containerView instanceof RecyclerView) {
+            ((RecyclerView)containerView).addItemDecoration(new RecyclerView.ItemDecoration() {
+                @Override
+                public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                    outRect.set((int) (mIndictorSpace / 2), 0, (int) (mIndictorSpace / 2), 0);
+                }
+            });
+        }
+        addView(mPageControl.containerView(), pc_lp);
     }
 
     @Override
@@ -265,7 +284,7 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         if (null != onPageChangeListener) {
-            onPageChangeListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            onPageChangeListener.onPageScrolled(position % mAdapter.getCount(), positionOffset, positionOffsetPixels);
         }
     }
 
@@ -277,7 +296,7 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
             }
         }
         if(null != onPageChangeListener) {
-            onPageChangeListener.onPageSelected(position);
+            onPageChangeListener.onPageSelected(position % mAdapter.getCount());
         }
     }
 

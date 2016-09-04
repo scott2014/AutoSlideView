@@ -57,6 +57,13 @@ public abstract class AutoScrollBase extends FrameLayout {
     public abstract void setPageControl(PageControlBase pageControl);
 
     /**
+     * 获取PageControl
+     */
+    public PageControlBase pageControl() {
+        return mPageControl;
+    }
+
+    /**
      * 控制PageControl显示或隐藏
      *
      * @param show PageControl显示状态

@@ -46,7 +46,7 @@ public abstract class PageControlBase<V extends View> implements OnChangeListene
         this.onItemClickListener = onItemClickListener;
     }
 
-    interface OnItemClickListener {
+    public interface OnItemClickListener {
         void onItemClick(View itemView,int position);
     }
 

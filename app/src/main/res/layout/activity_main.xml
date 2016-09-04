@@ -6,62 +6,10 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
-
     <me.foji.widget.AutoScrollViewPager
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        app:indictorBottomMargin="5dp"
-        app:indictorSpace="10dp"
-        app:timeInterval="3000"
-        app:indictorVisibleInSingle="false"
-        android:id="@+id/autoSlideView"
-        android:visibility="visible"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:text="@string/start"
-            android:id="@+id/start"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:text="@string/stop"
-            android:id="@+id/stop"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:text="@string/show"
-            android:id="@+id/show"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:text="@string/hide"
-            android:id="@+id/hide"/>
-    </LinearLayout>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/load_frm_net"
-        android:id="@+id/loadFrmNet"/>
+        app:autoScrollEnable="true"
+        android:id="@+id/viewPager"/>
 
 </LinearLayout>
