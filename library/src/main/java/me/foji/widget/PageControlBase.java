@@ -16,10 +16,13 @@ public abstract class PageControlBase<V extends View> implements OnChangeListene
     //单页数据是否隐藏指示器
     protected boolean hideForSinglePage = true;
 
+    // 指示器间隔
+    protected float mIndictorSpace;
+
     // OnItemClickListener监听器
     protected OnItemClickListener onItemClickListener;
 
-    //设置当前页
+    // 设置当前页
     public abstract void setCurrPage(int currPage);
     // 设置总页数
     public void setTotalPage(int totalPage) {
@@ -27,6 +30,8 @@ public abstract class PageControlBase<V extends View> implements OnChangeListene
     }
 
     public abstract void setHideForSinglePage(boolean hideForSinglePage);
+
+    public abstract void setIndictorSpace(float indictorSpace);
 
     public abstract V containerView();
 

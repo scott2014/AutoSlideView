@@ -2,6 +2,7 @@ package me.foji.demo;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -36,6 +37,17 @@ public class CustomPageControl extends PageControlBase<RelativeLayout> {
     @Override
     public void setHideForSinglePage(boolean hideForSinglePage) {
         this.hideForSinglePage = hideForSinglePage;
+    }
+
+    @Override
+    public void setIndictorSpace(float indictorSpace) {
+        mIndictorSpace = indictorSpace;
+        mListView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                outRect.set((int) (mIndictorSpace / 2), 0, (int) (mIndictorSpace / 2), 0);
+            }
+        });
     }
 
     @Override

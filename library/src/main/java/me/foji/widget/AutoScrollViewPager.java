@@ -21,14 +21,14 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
     // 自动滑动任务
     private Runnable mScrollTask;
     // Util
-    private Util util;
+    private Util util = new Util(getContext());
 
     // 默认滑动时间间隔
     private final int DEFAULT_TIME_INTERVAL = 1000;
     // 默认指示器Margin Bottom
-    private final int DEFAULT_BOTTOM_MARGIN = 10;
+    private final int DEFAULT_BOTTOM_MARGIN = (int) util.dp2px(10);
     // 默认指示器间隔
-    private final int DEFAULT_INDICTOR_SPACE = 5;
+    private final int DEFAULT_INDICTOR_SPACE = (int) util.dp2px(5);
 
     private PageControlBase.Adapter mIndictorAdapter;
     private AutoScrollPagerAdapter mAdapter;
@@ -43,8 +43,6 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
     }
 
     private void init(Context context, AttributeSet attrs) {
-        util = new Util(context);
-
         if (null != attrs) {
             TypedArray array = context.getTheme().obtainStyledAttributes(attrs, R.styleable.AutoScrollViewPager, 0, 0);
 
@@ -72,12 +70,7 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
         pc_lp.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
 
         RecyclerView containerView = (RecyclerView) mPageControl.containerView();
-        containerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                outRect.set((int) (mIndictorSpace / 2), 0, (int) (mIndictorSpace / 2), 0);
-            }
-        });
+        mPageControl.setIndictorSpace(mIndictorSpace);
         addView(containerView, pc_lp);
 
         //自动滑动任务
@@ -116,18 +109,9 @@ public class AutoScrollViewPager extends AutoScrollBase implements ViewPager.OnP
         FrameLayout.LayoutParams pc_lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         pc_lp.bottomMargin = (int) mIndictorBottomMargin;
         pc_lp.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
-
-        View containerView = mPageControl.containerView();
-
-        if(containerView instanceof RecyclerView) {
-            ((RecyclerView)containerView).addItemDecoration(new RecyclerView.ItemDecoration() {
-                @Override
-                public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                    outRect.set((int) (mIndictorSpace / 2), 0, (int) (mIndictorSpace / 2), 0);
-                }
-            });
-        }
         addView(mPageControl.containerView(), pc_lp);
+
+        mPageControl.setIndictorSpace(mIndictorSpace);
     }
 
     @Override
