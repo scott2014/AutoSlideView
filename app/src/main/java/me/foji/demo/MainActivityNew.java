@@ -29,6 +29,7 @@ public class MainActivityNew extends AppCompatActivity implements View.OnClickLi
 
         imageSlide.setOnClickListener(this);
         anySlide.setOnClickListener(this);
+        customIndictorStyle.setOnClickListener(this);
     }
 
     @Override
@@ -43,6 +44,12 @@ public class MainActivityNew extends AppCompatActivity implements View.OnClickLi
             case R.id.any_slide: {
                 Intent intent = new Intent(this,FeatureActivity.class);
                 intent.putExtra(FeatureActivity.KEY_TYPE,FeatureActivity.TYPE_ANY_SLIDER);
+                startActivity(intent);
+                break;
+            }
+            case R.id.custom_indictor_style: {
+                Intent intent = new Intent(this,FeatureActivity.class);
+                intent.putExtra(FeatureActivity.KEY_TYPE,FeatureActivity.TYPE_CUSTOM_INDICTOR_STYLE);
                 startActivity(intent);
                 break;
             }

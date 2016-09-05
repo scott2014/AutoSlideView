@@ -15,6 +15,8 @@ public class FeatureActivity extends BaseActivity {
     public static final int TYPE_IMAGE_SLIDER = 1;
     // 任意轮播
     public static final int TYPE_ANY_SLIDER = 2;
+    // 自定义指示器样式
+    public static final int TYPE_CUSTOM_INDICTOR_STYLE = 3;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,6 +34,10 @@ public class FeatureActivity extends BaseActivity {
             }
             case TYPE_ANY_SLIDER: {
                 push(FragmentAnySlider.class);
+                break;
+            }
+            case TYPE_CUSTOM_INDICTOR_STYLE: {
+                push(FragmentCustomStyle.class);
                 break;
             }
         }
