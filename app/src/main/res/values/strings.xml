@@ -12,4 +12,9 @@
     <string name="show">显示</string>
     <string name="hide">隐藏</string>
     <string name="image_slide">图片轮播</string>
+    <string name="not_only_image">不仅仅是图片轮播</string>
+    <string name="dynamic_set">动态设置</string>
+    <string name="custom_indictor_style">自定义指示器样式</string>
+    <string name="custom_pagecontrol">自定义PageControl</string>
+    <string name="support_custom_any_layout">支持任意布局</string>
 </resources>

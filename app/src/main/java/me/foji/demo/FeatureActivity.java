@@ -13,6 +13,8 @@ public class FeatureActivity extends BaseActivity {
 
     // 图片轮播
     public static final int TYPE_IMAGE_SLIDER = 1;
+    // 任意轮播
+    public static final int TYPE_ANY_SLIDER = 2;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,6 +28,10 @@ public class FeatureActivity extends BaseActivity {
         switch (getIntent().getIntExtra(KEY_TYPE,TYPE_IMAGE_SLIDER)) {
             case TYPE_IMAGE_SLIDER: {
                 push(FragmentImageSlider.class);
+                break;
+            }
+            case TYPE_ANY_SLIDER: {
+                push(FragmentAnySlider.class);
                 break;
             }
         }
