@@ -69,6 +69,7 @@ public class CustomPageControl extends PageControlBase<RelativeLayout> {
             mContainerView.addView(mTextView);
 
             mListView = new RecyclerView(mContext);
+            mListView.setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
             RelativeLayout.LayoutParams lp2 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             lp2.addRule(RelativeLayout.CENTER_VERTICAL);
