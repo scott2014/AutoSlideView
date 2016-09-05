@@ -15,8 +15,12 @@ public class FeatureActivity extends BaseActivity {
     public static final int TYPE_IMAGE_SLIDER = 1;
     // 任意轮播
     public static final int TYPE_ANY_SLIDER = 2;
+    // 动态设置
+    public static final int TYPE_DYNAMIC_SET = 3;
     // 自定义指示器样式
-    public static final int TYPE_CUSTOM_INDICTOR_STYLE = 3;
+    public static final int TYPE_CUSTOM_INDICTOR_STYLE = 4;
+    // 自定义PageControl
+    public static final int TYPE_CUSTOM_PAGECONTROL = 5;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,8 +40,16 @@ public class FeatureActivity extends BaseActivity {
                 push(FragmentAnySlider.class);
                 break;
             }
+            case TYPE_DYNAMIC_SET: {
+                push(FragmentDynamicSet.class);
+                break;
+            }
             case TYPE_CUSTOM_INDICTOR_STYLE: {
                 push(FragmentCustomStyle.class);
+                break;
+            }
+            case TYPE_CUSTOM_PAGECONTROL: {
+                push(FragmentCustomPageControl.class);
                 break;
             }
         }
